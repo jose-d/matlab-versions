@@ -151,17 +151,29 @@ def _readings(term):
 
 def test_lookup_reports_ambiguity():
     assert _readings("9.0") == [("matlab", "R2016a"), ("runtime", "R2015b")]
-    assert _readings("24.1") == [("matlab", "R2024a"), ("runtime", "R2024a")]
+    assert _readings("24.1") == [
+        ("matlab", "R2024a"), ("runtime", "R2024a"), ("license", "R2010b"),
+    ]
 
 
 def test_lookup_kinds():
     assert _readings("R2024a") == [("name", "R2024a")]
     assert _readings("v51") == [("license", "R2024a")]
     assert _readings("51") == [("license", "R2024a")]
-    assert _readings("v914") == []  # R2023a installs under "R2023a", not "v914"
-    assert _readings("v910") == [("runtime", "R2021a")]
+    assert _readings("v914") == [("license", "R2455b")]  # No Runtime folder uses this name.
+    assert _readings("v910") == [("runtime", "R2021a"), ("license", "R2453b")]
     assert _readings("v91") == [("license", "R2044a"), ("runtime", "R2016b")]
     assert _readings("nonsense") == []
+
+
+@pytest.mark.parametrize("term", ["51.0", "v51.0", " 51.0 "])
+def test_lookup_dotted_license(term):
+    assert _readings(term) == [("license", "R2024a")]
+
+
+@pytest.mark.parametrize("term", ["v100", "V100", " v100 ", "v100.0"])
+def test_lookup_three_digit_license(term):
+    assert _readings(term) == [("license", "R2048b")]
 
 
 # --- lmstat -------------------------------------------------------------------

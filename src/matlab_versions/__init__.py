@@ -245,7 +245,9 @@ def from_runtime(ver: str) -> Release:
     if not m:
         raise ValueError(f"not a MATLAB Runtime version like '9.14' or 'v914': {ver!r}")
     full = m.group("version")
-    for candidate in (full, _two_part(full)):
+    parts = full.split(".")
+    for length in range(len(parts), 1, -1):
+        candidate = ".".join(parts[:length])
         for rel in releases():
             if rel.runtime == candidate:
                 return rel
@@ -260,7 +262,9 @@ def lookup(term: Union[int, str]) -> List[Tuple[str, Release]]:
 
     ``kind`` is ``"name"``, ``"matlab"``, ``"runtime"`` or ``"license"``. Some
     terms have more than one reading: ``"9.0"`` is MATLAB R2016a but MATLAB
-    Runtime R2015b. An empty list means nothing matched.
+    Runtime R2015b. Licence readings are included wherever valid, including
+    dotted versions and Runtime folder spellings. An empty list means nothing
+    matched.
     """
     text = str(term).strip()
     if _NAME_RE.match(text):
@@ -269,10 +273,10 @@ def lookup(term: Union[int, str]) -> List[Tuple[str, Release]]:
         except ValueError:
             return []
     if "." in text and not text.lower().startswith("v"):
-        readings = (("matlab", from_matlab), ("runtime", from_runtime))
+        readings = (("matlab", from_matlab), ("runtime", from_runtime), ("license", from_license))
     elif _FOLDER_RE.match(text) and len(text.strip()) >= 4:
-        # three or more digits ("v914", "v901") can only be a Runtime folder
-        readings = (("runtime", from_runtime),)
+        # Keep Runtime folders first while also accepting their licence reading.
+        readings = (("runtime", from_runtime), ("license", from_license))
     else:
         # "51", "v51", "v51.0" are licence versions; "v91" could also be a Runtime folder
         readings = (("license", from_license), ("runtime", from_runtime))
