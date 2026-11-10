@@ -151,18 +151,18 @@ def _readings(term):
 
 def test_lookup_reports_ambiguity():
     assert _readings("9.0") == [("matlab", "R2016a"), ("runtime", "R2015b")]
-    assert _readings("24.1") == [
-        ("matlab", "R2024a"), ("runtime", "R2024a"), ("license", "R2010b"),
-    ]
+    # 24.1 is never a licence version: MathWorks uses whole numbers
+    assert _readings("24.1") == [("matlab", "R2024a"), ("runtime", "R2024a")]
 
 
 def test_lookup_kinds():
     assert _readings("R2024a") == [("name", "R2024a")]
     assert _readings("v51") == [("license", "R2024a")]
     assert _readings("51") == [("license", "R2024a")]
-    assert _readings("v914") == [("license", "R2455b")]  # No Runtime folder uses this name.
-    assert _readings("v910") == [("runtime", "R2021a"), ("license", "R2453b")]
-    assert _readings("v91") == [("license", "R2044a"), ("runtime", "R2016b")]
+    assert _readings("v914") == []  # R2023a installs under "R2023a"; licence 914 is centuries away
+    assert _readings("v910") == [("runtime", "R2021a")]
+    assert _readings("v91") == [("runtime", "R2016b")]  # licence 91 would be R2044a: too far ahead
+    assert _readings("v57") == [("license", "R2027a")]  # next releases still resolve
     assert _readings("nonsense") == []
 
 
@@ -172,8 +172,40 @@ def test_lookup_dotted_license(term):
 
 
 @pytest.mark.parametrize("term", ["v100", "V100", " v100 ", "v100.0"])
-def test_lookup_three_digit_license(term):
-    assert _readings(term) == [("license", "R2048b")]
+def test_lookup_far_future_license_is_rejected(term):
+    assert _readings(term) == []
+
+
+def test_dotted_license_must_be_whole():
+    assert mv.from_license("v51.0").name == "R2024a"
+    for bad in ("24.1", "v51.5"):
+        with pytest.raises(ValueError):
+            mv.from_license(bad)
+
+
+def test_extrapolation_horizon():
+    newest = mv.releases()[-1]
+    last_ok = newest.license + mv.MAX_RELEASES_AHEAD
+    assert mv.from_license(last_ok).evidence["license"] == "extrapolated"
+    far = mv.from_license(last_ok)
+    assert mv.release(far.name) == far
+    with pytest.raises(ValueError, match="releases after the newest"):
+        mv.from_license(last_ok + 1)
+    with pytest.raises(ValueError):
+        mv.release("R2453b")
+    with pytest.raises(ValueError):
+        mv.from_matlab("53.2")
+    line = "    bob host2 /dev/tty (v910) (lic.example.org/27000 1), start Tue 11/10 10:15"
+    assert mv.parse_checkout(line).release is None
+
+
+def test_cli_survives_closed_pipe():
+    import subprocess, sys
+    r = subprocess.run(
+        f"{sys.executable} -m matlab_versions --json | head -c 10 >/dev/null",
+        shell=True, capture_output=True, text=True,
+    )
+    assert "Traceback" not in r.stderr and "BrokenPipe" not in r.stderr
 
 
 # --- lmstat -------------------------------------------------------------------

@@ -131,6 +131,11 @@ automatically and are marked `extrapolated`:
 - Licence version: from R2007a, exactly +1 per release:
   `2 * (year - 2008) + 19 + (1 if b else 0)`.
 
+Only the next 10 releases (five years) past the table are extrapolated.
+Anything further raises `ValueError`, because the rules are only known to hold
+today. Licence versions are whole numbers: `v51.0` is accepted, but `24.1` is
+never a licence version.
+
 To confirm a value, open an issue or pull request with the evidence: a
 `VersionInfo.xml` line, an lmstat checkout line or a licence file header.
 Leave out keys, since only the version field is needed.

@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "matlab-versions"
-version = "0.1.0"
+version = "0.1.1"
 description = "Translate between MATLAB release names, MATLAB versions, MATLAB Runtime versions and FlexLM licence versions"
 readme = "README.md"
 license = "MIT"

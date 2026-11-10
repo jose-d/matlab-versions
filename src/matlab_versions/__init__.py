@@ -43,13 +43,18 @@ __all__ = [
     "release",
     "releases",
 ]
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 
 #: Oldest licence version the +1 rule holds for (R2007a).
 FIRST_LICENSE = 17
 
+#: How many releases past the newest one in the table are computed from the rules
+#: (10 = five years). Anything further is rejected rather than guessed: the rules are
+#: only known to hold today, and "v910" is a Runtime folder, not a release in 2453.
+MAX_RELEASES_AHEAD = 10
+
 _NAME_RE = re.compile(r"^\s*R?(?P<year>\d{4})(?P<half>[ab])\s*$", re.IGNORECASE)
-_LICENSE_RE = re.compile(r"^\s*v?(?P<major>\d+)(?:\.\d+)?\s*$", re.IGNORECASE)
+_LICENSE_RE = re.compile(r"^\s*v?(?P<major>\d+)(?:\.(?P<minor>\d+))?\s*$", re.IGNORECASE)
 _DOTTED_RE = re.compile(r"^\s*(?P<version>\d+(?:\.\d+)+)(?:\s.*)?$")
 _FOLDER_RE = re.compile(r"^\s*v(?P<digits>\d{2,4})\s*$", re.IGNORECASE)
 _FEATURE_RE = re.compile(r"^Users of\s+(?P<feature>\S+?):", re.IGNORECASE)
@@ -165,7 +170,17 @@ def _is_newer(year: int, half: str) -> bool:
 
 
 def _extrapolate(year: int, half: str) -> Release:
-    """A release newer than the table, from the rules that hold since R2023b."""
+    """A release newer than the table, from the rules that hold since R2023b.
+
+    Raises :class:`ValueError` beyond :data:`MAX_RELEASES_AHEAD` releases.
+    """
+    newest = _newest()
+    ahead = 2 * (year - newest.year) + (half == "b") - (newest.half == "b")
+    if ahead > MAX_RELEASES_AHEAD:
+        raise ValueError(
+            f"R{year}{half} is {ahead} releases after the newest known release ({newest.name}); "
+            f"only {MAX_RELEASES_AHEAD} are extrapolated"
+        )
     ver = f"{year % 100}.{1 if half == 'a' else 2}"
     lic = 2 * (year - 2008) + 19 + (half == "b")
     return Release(
@@ -190,12 +205,16 @@ def release(name: str) -> Release:
 
 
 def from_license(ver: Union[int, str]) -> Release:
-    """Release whose clients check out this licence version: ``51``, ``"v51"``, ``"v51.0"``."""
+    """Release whose clients check out this licence version: ``51``, ``"v51"``, ``"v51.0"``.
+
+    MathWorks licence versions are whole numbers, so ``"v51.0"`` is accepted but
+    ``"24.1"`` is not a licence version.
+    """
     if isinstance(ver, bool):
         raise TypeError("licence version must be an int or str")
     if isinstance(ver, str):
         m = _LICENSE_RE.match(ver)
-        if not m:
+        if not m or int(m.group("minor") or 0) != 0:
             raise ValueError(f"not a licence version: {ver!r}")
         ver = int(m.group("major"))
     if ver < FIRST_LICENSE:

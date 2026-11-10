@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 from collections import Counter
 from typing import List, Optional
@@ -27,6 +28,16 @@ def _describe(rel: Release) -> str:
 
 
 def main(argv: Optional[List[str]] = None) -> int:
+    try:
+        return _main(argv)
+    except BrokenPipeError:
+        # the reader stopped early (`| head`, `| cmp`): not an error worth a traceback
+        devnull = os.open(os.devnull, os.O_WRONLY)
+        os.dup2(devnull, sys.stdout.fileno())
+        return 1
+
+
+def _main(argv: Optional[List[str]] = None) -> int:
     parser = argparse.ArgumentParser(
         prog="matlab-versions",
         description="Translate between MATLAB release names (R2024a), MATLAB versions (24.1), "
