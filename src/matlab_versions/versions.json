@@ -1,0 +1,919 @@
+{
+  "description": "Identifiers of each MATLAB release: its name (R2024a), the MATLAB version that version() and VersionInfo.xml report (24.1), the MATLAB Runtime version (24.1), and the FlexLM licence version its clients check out, which lmstat prints as '(v51)'.",
+  "rules": {
+    "matlab": "Up to R2023a: 7.x, 8.x, 9.x with no fixed rule. From R2023b: two-digit year, then .1 for 'a' and .2 for 'b' (R2024a = 24.1).",
+    "runtime": "Usually equal to the MATLAB version, but not always: R2012a = 7.17, R2015b = 9.0, R2016a = 9.0.1. Installed under a folder named 'v' plus the version digits (R2021b = 9.11 -> v911) up to R2022a, and under the release name (R2022b) from R2022b.",
+    "license": "From R2007a the licence version increases by exactly 1 per release: 2*(year - 2008) + 19 + (1 if b else 0). MathWorks publishes no official table."
+  },
+  "caveats": [
+    "The version on a licence file's INCREMENT lines (and on lmstat's '\"MATLAB\" vNN' feature header) is the newest release the licence allows, not what clients run. Only the '(vNN)' on a checkout line identifies the client.",
+    "Toolboxes share MATLAB's version within a release, except discontinued or frozen products, which keep the number of their last release (e.g. Stateflow_Coder stays at 24).",
+    "MathWorks uses integer versions only."
+  ],
+  "evidence_levels": {
+    "observed": "seen side by side in a primary artefact: an installation's VersionInfo.xml, a licence file with a '# Rxxxx' header above its INCREMENT lines, an lmstat checkout from a client of a known release, or a MathWorks documentation example",
+    "documented": "listed by a published table (MathWorks or an independent compilation), not checked against an artefact",
+    "extrapolated": "follows from the rule; no source found"
+  },
+  "sources": {
+    "matlab-answers-277493": "MATLAB Answers 277493, community list plus a MathWorks staff statement (MLM 35 = R2016a, 34 = R2015b): https://www.mathworks.com/matlabcentral/answers/277493-what-does-version-v35-with-lmutil-mean",
+    "techoverflow-2024": "TechOverflow, 'MATLAB 20xx version to vXY version mapping' (2024-10-20): https://techoverflow.net/2024/10/20/matlab-20xx-version-to-vxy-version-mapping",
+    "mathworks-doc-example": "MathWorks network licence file example ('# R2021b' header with 'INCREMENT MATLAB MLM 46'): https://www.mathworks.com/help/install/ug/network-license-files.html",
+    "public-licence-files": "Public MathWorks licence files on GitHub with a '# Rxxxx' header above the INCREMENT lines, found with 'gh search code \"INCREMENT MATLAB MLM\"' (only the version field was read; cracked files with 99/369/9999 were ignored). Researched 2026-11-10.",
+    "own-server": "The package author's own licence server, 2026-11-10: lmstat checkouts from an R2021a client (v45) and R2024a clients (v51); the R2026a licence file's INCREMENT lines are at 55.",
+    "wikipedia-matlab": "Wikipedia, 'MATLAB', release history table (MATLAB version per release; cites MathWorks' previous-releases page): https://en.wikipedia.org/wiki/MATLAB#Release_history",
+    "mathworks-runtime": "MathWorks, MATLAB Runtime download page, 'Release (Version)' list: https://www.mathworks.com/products/compiler/matlab-runtime.html",
+    "own-installations": "The package author's own MATLAB installations, 2026-11-10: <version> in VersionInfo.xml was 9.10.0.1739362 (R2021a), 9.14.0.2239454 (R2023a), 24.1.0.2689473 (R2024a), 26.1.0.3346908 (R2026a).",
+    "mathworks-runtime-folders": "MathWorks Answers 438125, 'How can I determine if MATLAB or MATLAB Runtime are installed?' (folder v911 for R2021b; release-named folders from R2022b): https://www.mathworks.com/matlabcentral/answers/438125-how-can-i-determine-if-matlab-or-matlab-runtime-are-installed"
+  },
+  "releases": [
+    {
+      "release": "R2006a",
+      "matlab": "7.2",
+      "runtime": null,
+      "license": null,
+      "evidence": {
+        "matlab": "documented"
+      },
+      "sources": {
+        "matlab": [
+          "wikipedia-matlab"
+        ]
+      }
+    },
+    {
+      "release": "R2006b",
+      "matlab": "7.3",
+      "runtime": null,
+      "license": null,
+      "evidence": {
+        "matlab": "documented"
+      },
+      "sources": {
+        "matlab": [
+          "wikipedia-matlab"
+        ]
+      }
+    },
+    {
+      "release": "R2007a",
+      "matlab": "7.4",
+      "runtime": null,
+      "license": 17,
+      "evidence": {
+        "matlab": "documented",
+        "license": "documented"
+      },
+      "sources": {
+        "matlab": [
+          "wikipedia-matlab"
+        ],
+        "license": [
+          "matlab-answers-277493",
+          "techoverflow-2024"
+        ]
+      }
+    },
+    {
+      "release": "R2007b",
+      "matlab": "7.5",
+      "runtime": null,
+      "license": 18,
+      "evidence": {
+        "matlab": "documented",
+        "license": "observed"
+      },
+      "sources": {
+        "matlab": [
+          "wikipedia-matlab"
+        ],
+        "license": [
+          "matlab-answers-277493",
+          "techoverflow-2024",
+          "public-licence-files"
+        ]
+      }
+    },
+    {
+      "release": "R2008a",
+      "matlab": "7.6",
+      "runtime": null,
+      "license": 19,
+      "evidence": {
+        "matlab": "documented",
+        "license": "documented"
+      },
+      "sources": {
+        "matlab": [
+          "wikipedia-matlab"
+        ],
+        "license": [
+          "matlab-answers-277493"
+        ]
+      }
+    },
+    {
+      "release": "R2008b",
+      "matlab": "7.7",
+      "runtime": null,
+      "license": 20,
+      "evidence": {
+        "matlab": "documented",
+        "license": "documented"
+      },
+      "sources": {
+        "matlab": [
+          "wikipedia-matlab"
+        ],
+        "license": [
+          "matlab-answers-277493"
+        ]
+      }
+    },
+    {
+      "release": "R2009a",
+      "matlab": "7.8",
+      "runtime": null,
+      "license": 21,
+      "evidence": {
+        "matlab": "documented",
+        "license": "documented"
+      },
+      "sources": {
+        "matlab": [
+          "wikipedia-matlab"
+        ],
+        "license": [
+          "matlab-answers-277493",
+          "techoverflow-2024"
+        ]
+      }
+    },
+    {
+      "release": "R2009b",
+      "matlab": "7.9",
+      "runtime": null,
+      "license": 22,
+      "evidence": {
+        "matlab": "documented",
+        "license": "documented"
+      },
+      "sources": {
+        "matlab": [
+          "wikipedia-matlab"
+        ],
+        "license": [
+          "matlab-answers-277493",
+          "techoverflow-2024"
+        ]
+      }
+    },
+    {
+      "release": "R2010a",
+      "matlab": "7.10",
+      "runtime": null,
+      "license": 23,
+      "evidence": {
+        "matlab": "documented",
+        "license": "observed"
+      },
+      "sources": {
+        "matlab": [
+          "wikipedia-matlab"
+        ],
+        "license": [
+          "matlab-answers-277493",
+          "public-licence-files"
+        ]
+      }
+    },
+    {
+      "release": "R2010b",
+      "matlab": "7.11",
+      "runtime": null,
+      "license": 24,
+      "evidence": {
+        "matlab": "documented",
+        "license": "observed"
+      },
+      "sources": {
+        "matlab": [
+          "wikipedia-matlab"
+        ],
+        "license": [
+          "matlab-answers-277493",
+          "techoverflow-2024",
+          "public-licence-files"
+        ]
+      }
+    },
+    {
+      "release": "R2011a",
+      "matlab": "7.12",
+      "runtime": null,
+      "license": 25,
+      "evidence": {
+        "matlab": "documented",
+        "license": "documented"
+      },
+      "sources": {
+        "matlab": [
+          "wikipedia-matlab"
+        ],
+        "license": [
+          "matlab-answers-277493"
+        ]
+      }
+    },
+    {
+      "release": "R2011b",
+      "matlab": "7.13",
+      "runtime": null,
+      "license": 26,
+      "evidence": {
+        "matlab": "documented",
+        "license": "documented"
+      },
+      "sources": {
+        "matlab": [
+          "wikipedia-matlab"
+        ],
+        "license": [
+          "matlab-answers-277493",
+          "techoverflow-2024"
+        ]
+      }
+    },
+    {
+      "release": "R2012a",
+      "matlab": "7.14",
+      "runtime": "7.17",
+      "license": 27,
+      "evidence": {
+        "matlab": "documented",
+        "runtime": "documented",
+        "license": "documented"
+      },
+      "sources": {
+        "matlab": [
+          "wikipedia-matlab"
+        ],
+        "runtime": [
+          "mathworks-runtime"
+        ],
+        "license": [
+          "matlab-answers-277493",
+          "techoverflow-2024"
+        ]
+      }
+    },
+    {
+      "release": "R2012b",
+      "matlab": "8.0",
+      "runtime": "8.0",
+      "license": 28,
+      "evidence": {
+        "matlab": "documented",
+        "runtime": "documented",
+        "license": "observed"
+      },
+      "sources": {
+        "matlab": [
+          "wikipedia-matlab"
+        ],
+        "runtime": [
+          "mathworks-runtime"
+        ],
+        "license": [
+          "matlab-answers-277493",
+          "techoverflow-2024",
+          "public-licence-files"
+        ]
+      }
+    },
+    {
+      "release": "R2013a",
+      "matlab": "8.1",
+      "runtime": "8.1",
+      "license": 29,
+      "evidence": {
+        "matlab": "documented",
+        "runtime": "documented",
+        "license": "documented"
+      },
+      "sources": {
+        "matlab": [
+          "wikipedia-matlab"
+        ],
+        "runtime": [
+          "mathworks-runtime"
+        ],
+        "license": [
+          "matlab-answers-277493"
+        ]
+      }
+    },
+    {
+      "release": "R2013b",
+      "matlab": "8.2",
+      "runtime": "8.2",
+      "license": 30,
+      "evidence": {
+        "matlab": "documented",
+        "runtime": "documented",
+        "license": "documented"
+      },
+      "sources": {
+        "matlab": [
+          "wikipedia-matlab"
+        ],
+        "runtime": [
+          "mathworks-runtime"
+        ],
+        "license": [
+          "matlab-answers-277493",
+          "techoverflow-2024"
+        ]
+      }
+    },
+    {
+      "release": "R2014a",
+      "matlab": "8.3",
+      "runtime": "8.3",
+      "license": 31,
+      "evidence": {
+        "matlab": "documented",
+        "runtime": "documented",
+        "license": "observed"
+      },
+      "sources": {
+        "matlab": [
+          "wikipedia-matlab"
+        ],
+        "runtime": [
+          "mathworks-runtime"
+        ],
+        "license": [
+          "matlab-answers-277493",
+          "public-licence-files"
+        ]
+      }
+    },
+    {
+      "release": "R2014b",
+      "matlab": "8.4",
+      "runtime": "8.4",
+      "license": 32,
+      "evidence": {
+        "matlab": "documented",
+        "runtime": "documented",
+        "license": "documented"
+      },
+      "sources": {
+        "matlab": [
+          "wikipedia-matlab"
+        ],
+        "runtime": [
+          "mathworks-runtime"
+        ],
+        "license": [
+          "matlab-answers-277493",
+          "techoverflow-2024"
+        ]
+      }
+    },
+    {
+      "release": "R2015a",
+      "matlab": "8.5",
+      "runtime": "8.5",
+      "license": 33,
+      "evidence": {
+        "matlab": "documented",
+        "runtime": "documented",
+        "license": "observed"
+      },
+      "sources": {
+        "matlab": [
+          "wikipedia-matlab"
+        ],
+        "runtime": [
+          "mathworks-runtime"
+        ],
+        "license": [
+          "matlab-answers-277493",
+          "public-licence-files"
+        ]
+      }
+    },
+    {
+      "release": "R2015b",
+      "matlab": "8.6",
+      "runtime": "9.0",
+      "license": 34,
+      "evidence": {
+        "matlab": "documented",
+        "runtime": "documented",
+        "license": "documented"
+      },
+      "sources": {
+        "matlab": [
+          "wikipedia-matlab"
+        ],
+        "runtime": [
+          "mathworks-runtime"
+        ],
+        "license": [
+          "matlab-answers-277493",
+          "techoverflow-2024"
+        ]
+      }
+    },
+    {
+      "release": "R2016a",
+      "matlab": "9.0",
+      "runtime": "9.0.1",
+      "license": 35,
+      "evidence": {
+        "matlab": "documented",
+        "runtime": "documented",
+        "license": "documented"
+      },
+      "sources": {
+        "matlab": [
+          "wikipedia-matlab"
+        ],
+        "runtime": [
+          "mathworks-runtime"
+        ],
+        "license": [
+          "matlab-answers-277493"
+        ]
+      }
+    },
+    {
+      "release": "R2016b",
+      "matlab": "9.1",
+      "runtime": "9.1",
+      "license": 36,
+      "evidence": {
+        "matlab": "documented",
+        "runtime": "documented",
+        "license": "documented"
+      },
+      "sources": {
+        "matlab": [
+          "wikipedia-matlab"
+        ],
+        "runtime": [
+          "mathworks-runtime"
+        ],
+        "license": [
+          "techoverflow-2024"
+        ]
+      }
+    },
+    {
+      "release": "R2017a",
+      "matlab": "9.2",
+      "runtime": "9.2",
+      "license": 37,
+      "evidence": {
+        "matlab": "documented",
+        "runtime": "documented",
+        "license": "extrapolated"
+      },
+      "sources": {
+        "matlab": [
+          "wikipedia-matlab"
+        ],
+        "runtime": [
+          "mathworks-runtime"
+        ]
+      }
+    },
+    {
+      "release": "R2017b",
+      "matlab": "9.3",
+      "runtime": "9.3",
+      "license": 38,
+      "evidence": {
+        "matlab": "documented",
+        "runtime": "documented",
+        "license": "documented"
+      },
+      "sources": {
+        "matlab": [
+          "wikipedia-matlab"
+        ],
+        "runtime": [
+          "mathworks-runtime"
+        ],
+        "license": [
+          "techoverflow-2024"
+        ]
+      }
+    },
+    {
+      "release": "R2018a",
+      "matlab": "9.4",
+      "runtime": "9.4",
+      "license": 39,
+      "evidence": {
+        "matlab": "documented",
+        "runtime": "documented",
+        "license": "observed"
+      },
+      "sources": {
+        "matlab": [
+          "wikipedia-matlab"
+        ],
+        "runtime": [
+          "mathworks-runtime"
+        ],
+        "license": [
+          "public-licence-files"
+        ]
+      }
+    },
+    {
+      "release": "R2018b",
+      "matlab": "9.5",
+      "runtime": "9.5",
+      "license": 40,
+      "evidence": {
+        "matlab": "documented",
+        "runtime": "documented",
+        "license": "observed"
+      },
+      "sources": {
+        "matlab": [
+          "wikipedia-matlab"
+        ],
+        "runtime": [
+          "mathworks-runtime"
+        ],
+        "license": [
+          "techoverflow-2024",
+          "public-licence-files"
+        ]
+      }
+    },
+    {
+      "release": "R2019a",
+      "matlab": "9.6",
+      "runtime": "9.6",
+      "license": 41,
+      "evidence": {
+        "matlab": "documented",
+        "runtime": "documented",
+        "license": "observed"
+      },
+      "sources": {
+        "matlab": [
+          "wikipedia-matlab"
+        ],
+        "runtime": [
+          "mathworks-runtime"
+        ],
+        "license": [
+          "public-licence-files"
+        ]
+      }
+    },
+    {
+      "release": "R2019b",
+      "matlab": "9.7",
+      "runtime": "9.7",
+      "license": 42,
+      "evidence": {
+        "matlab": "documented",
+        "runtime": "documented",
+        "license": "observed"
+      },
+      "sources": {
+        "matlab": [
+          "wikipedia-matlab"
+        ],
+        "runtime": [
+          "mathworks-runtime"
+        ],
+        "license": [
+          "techoverflow-2024",
+          "public-licence-files"
+        ]
+      }
+    },
+    {
+      "release": "R2020a",
+      "matlab": "9.8",
+      "runtime": "9.8",
+      "license": 43,
+      "evidence": {
+        "matlab": "documented",
+        "runtime": "documented",
+        "license": "observed"
+      },
+      "sources": {
+        "matlab": [
+          "wikipedia-matlab"
+        ],
+        "runtime": [
+          "mathworks-runtime"
+        ],
+        "license": [
+          "public-licence-files"
+        ]
+      }
+    },
+    {
+      "release": "R2020b",
+      "matlab": "9.9",
+      "runtime": "9.9",
+      "license": 44,
+      "evidence": {
+        "matlab": "documented",
+        "runtime": "documented",
+        "license": "observed"
+      },
+      "sources": {
+        "matlab": [
+          "wikipedia-matlab"
+        ],
+        "runtime": [
+          "mathworks-runtime"
+        ],
+        "license": [
+          "public-licence-files"
+        ]
+      }
+    },
+    {
+      "release": "R2021a",
+      "matlab": "9.10",
+      "runtime": "9.10",
+      "license": 45,
+      "evidence": {
+        "matlab": "observed",
+        "runtime": "documented",
+        "license": "observed"
+      },
+      "sources": {
+        "matlab": [
+          "wikipedia-matlab",
+          "own-installations"
+        ],
+        "runtime": [
+          "mathworks-runtime"
+        ],
+        "license": [
+          "public-licence-files",
+          "own-server"
+        ]
+      }
+    },
+    {
+      "release": "R2021b",
+      "matlab": "9.11",
+      "runtime": "9.11",
+      "license": 46,
+      "evidence": {
+        "matlab": "documented",
+        "runtime": "documented",
+        "license": "observed"
+      },
+      "sources": {
+        "matlab": [
+          "wikipedia-matlab"
+        ],
+        "runtime": [
+          "mathworks-runtime"
+        ],
+        "license": [
+          "mathworks-doc-example",
+          "public-licence-files"
+        ]
+      }
+    },
+    {
+      "release": "R2022a",
+      "matlab": "9.12",
+      "runtime": "9.12",
+      "license": 47,
+      "evidence": {
+        "matlab": "documented",
+        "runtime": "documented",
+        "license": "observed"
+      },
+      "sources": {
+        "matlab": [
+          "wikipedia-matlab"
+        ],
+        "runtime": [
+          "mathworks-runtime"
+        ],
+        "license": [
+          "public-licence-files"
+        ]
+      }
+    },
+    {
+      "release": "R2022b",
+      "matlab": "9.13",
+      "runtime": "9.13",
+      "license": 48,
+      "evidence": {
+        "matlab": "documented",
+        "runtime": "documented",
+        "license": "observed"
+      },
+      "sources": {
+        "matlab": [
+          "wikipedia-matlab"
+        ],
+        "runtime": [
+          "mathworks-runtime"
+        ],
+        "license": [
+          "techoverflow-2024",
+          "public-licence-files"
+        ]
+      }
+    },
+    {
+      "release": "R2023a",
+      "matlab": "9.14",
+      "runtime": "9.14",
+      "license": 49,
+      "evidence": {
+        "matlab": "observed",
+        "runtime": "documented",
+        "license": "observed"
+      },
+      "sources": {
+        "matlab": [
+          "wikipedia-matlab",
+          "own-installations"
+        ],
+        "runtime": [
+          "mathworks-runtime"
+        ],
+        "license": [
+          "matlab-answers-277493",
+          "public-licence-files"
+        ]
+      }
+    },
+    {
+      "release": "R2023b",
+      "matlab": "23.2",
+      "runtime": "23.2",
+      "license": 50,
+      "evidence": {
+        "matlab": "documented",
+        "runtime": "documented",
+        "license": "observed"
+      },
+      "sources": {
+        "matlab": [
+          "wikipedia-matlab"
+        ],
+        "runtime": [
+          "mathworks-runtime"
+        ],
+        "license": [
+          "techoverflow-2024",
+          "public-licence-files"
+        ]
+      }
+    },
+    {
+      "release": "R2024a",
+      "matlab": "24.1",
+      "runtime": "24.1",
+      "license": 51,
+      "evidence": {
+        "matlab": "observed",
+        "runtime": "documented",
+        "license": "observed"
+      },
+      "sources": {
+        "matlab": [
+          "wikipedia-matlab",
+          "own-installations"
+        ],
+        "runtime": [
+          "mathworks-runtime"
+        ],
+        "license": [
+          "public-licence-files",
+          "own-server"
+        ]
+      }
+    },
+    {
+      "release": "R2024b",
+      "matlab": "24.2",
+      "runtime": "24.2",
+      "license": 52,
+      "evidence": {
+        "matlab": "documented",
+        "runtime": "documented",
+        "license": "observed"
+      },
+      "sources": {
+        "matlab": [
+          "wikipedia-matlab"
+        ],
+        "runtime": [
+          "mathworks-runtime"
+        ],
+        "license": [
+          "public-licence-files"
+        ]
+      }
+    },
+    {
+      "release": "R2025a",
+      "matlab": "25.1",
+      "runtime": "25.1",
+      "license": 53,
+      "evidence": {
+        "matlab": "documented",
+        "runtime": "documented",
+        "license": "extrapolated"
+      },
+      "sources": {
+        "matlab": [
+          "wikipedia-matlab"
+        ],
+        "runtime": [
+          "mathworks-runtime"
+        ]
+      }
+    },
+    {
+      "release": "R2025b",
+      "matlab": "25.2",
+      "runtime": "25.2",
+      "license": 54,
+      "evidence": {
+        "matlab": "documented",
+        "runtime": "documented",
+        "license": "observed"
+      },
+      "sources": {
+        "matlab": [
+          "wikipedia-matlab"
+        ],
+        "runtime": [
+          "mathworks-runtime"
+        ],
+        "license": [
+          "public-licence-files"
+        ]
+      }
+    },
+    {
+      "release": "R2026a",
+      "matlab": "26.1",
+      "runtime": "26.1",
+      "license": 55,
+      "evidence": {
+        "matlab": "observed",
+        "runtime": "documented",
+        "license": "observed"
+      },
+      "sources": {
+        "matlab": [
+          "wikipedia-matlab",
+          "own-installations"
+        ],
+        "runtime": [
+          "mathworks-runtime"
+        ],
+        "license": [
+          "own-server"
+        ]
+      }
+    },
+    {
+      "release": "R2026b",
+      "matlab": "26.2",
+      "runtime": "26.2",
+      "license": 56,
+      "evidence": {
+        "matlab": "documented",
+        "runtime": "documented",
+        "license": "extrapolated"
+      },
+      "sources": {
+        "matlab": [
+          "wikipedia-matlab"
+        ],
+        "runtime": [
+          "mathworks-runtime"
+        ]
+      }
+    }
+  ]
+}

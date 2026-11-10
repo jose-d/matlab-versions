@@ -1,0 +1,36 @@
+[build-system]
+requires = ["hatchling>=1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "matlab-versions"
+version = "0.1.0"
+description = "Translate between MATLAB release names, MATLAB versions, MATLAB Runtime versions and FlexLM licence versions"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Josef Dvořáček" }]
+requires-python = ">=3.9"
+dependencies = []
+keywords = ["matlab-runtime", "mcr", "version", "matlab", "flexlm", "flexnet", "lmstat", "license", "mathworks"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: System Administrators",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Topic :: System :: Monitoring",
+    "Typing :: Typed",
+]
+
+[project.urls]
+Homepage = "https://github.com/jose-d/matlab-versions"
+Issues = "https://github.com/jose-d/matlab-versions/issues"
+
+[project.scripts]
+matlab-versions = "matlab_versions.__main__:main"
+
+[tool.hatch.build.targets.sdist]
+include = ["src", "tests", "README.md", "LICENSE"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
