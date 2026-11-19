@@ -32,6 +32,9 @@ It has no dependencies and needs Python 3.9 or newer.
 
 ## Install
 
+The package is published on PyPI:
+[pypi.org/project/matlab-versions](https://pypi.org/project/matlab-versions/).
+
 ```bash
 pip install matlab-versions
 ```
