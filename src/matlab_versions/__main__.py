@@ -29,7 +29,10 @@ def _describe(rel: Release) -> str:
 
 def main(argv: Optional[List[str]] = None) -> int:
     try:
-        return _main(argv)
+        rc = _main(argv)
+        # flush here, not at interpreter exit, so a pipe closed after the last write is caught below
+        sys.stdout.flush()
+        return rc
     except BrokenPipeError:
         # the reader stopped early (`| head`, `| cmp`): not an error worth a traceback
         devnull = os.open(os.devnull, os.O_WRONLY)
