@@ -43,7 +43,7 @@ __all__ = [
     "release",
     "releases",
 ]
-__version__ = "0.1.1"
+__version__ = "0.1.2"
 
 #: Oldest licence version the +1 rule holds for (R2007a).
 FIRST_LICENSE = 17
